@@ -1,0 +1,32 @@
+{
+  "name": "chat-server",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -n w: npm:w-*",
+    "w-tsc": "tsc -w",
+    "w-tsc-alias": "tsc-alias -w",
+    "w-serve": "nodemon --inspect -w ./build/src ./build/src/app.js",
+    "build": "tsc & tsc-alias"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/node": "^22.0.0",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.4",
+    "tsc-alias": "^1.8.10",
+    "typescript": "^5.5.4"
+  }
+}

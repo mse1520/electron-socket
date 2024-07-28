@@ -1,0 +1,45 @@
+{
+  // 컴파일 대상을 지정하는 옵션
+  "include": [ "**/*.ts" ],
+  "exclude": [ "node_modules" ],
+  "compilerOptions": {
+    "typeRoots": [ "node_modules/@types", "types" ],
+    // 컴파일 파일의 버전
+    "target": "ESNext",
+    // 타입 라이브러리 사용 목록
+    "lib": [ "DOM", "DOM.Iterable", "ESNext" ],
+    // 엄격모드
+    "strict": true,
+    // CommonJS 모듈을 es6모듈 사양처럼 쓸수있게하는 옵션
+    "esModuleInterop": true,
+    // 각각의 파일을 모듈단위로 컴파일 할 것을 강제하는 옵션
+    "isolatedModules": true,
+    // 컴파일된 파일의 모듈 시스템이 어떤 시스템인지 지정해주는 옵션
+    "module": "ESNext",
+    // 어떤 모듈 해석 방법을 쓸 것인가에 대한 옵션. Bundler 옵션은 vite 같은 번들러를 사용할 때 필요
+    "moduleResolution": "Bundler",
+    // 파일명의 대소문자를 구분할 것인가에 대한 옵션
+    "forceConsistentCasingInFileNames": true,
+    // 경로 별명 설정
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [ "./*" ]
+    },
+    // ts 파일과 js 파일 혼용 가능 옵션
+    "allowJs": true,
+    // 데코레이션 문법 사용
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    // 모든 타입선언 파일의 검사를 건너뜁니다.
+    "skipLibCheck": true,
+    // 컴파일 되기전 원본소스와 맵핑
+    "sourceMap": true,
+    // 컴파일 경로
+    "outDir": "build/src"
+  },
+  // 컴파일시 확장자를 생성하는 옵션, tsc-alias의 별도 설정이다
+  "tsc-alias": {
+    "resolveFullPaths": true
+  }
+}
