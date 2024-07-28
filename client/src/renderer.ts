@@ -1,31 +1,35 @@
-/**
- * This file will automatically be loaded by vite and run in the "renderer" context.
- * To learn more about the differences between the "main" and the "renderer" context in
- * Electron, visit:
- *
- * https://electronjs.org/docs/tutorial/application-architecture#main-and-renderer-processes
- *
- * By default, Node.js integration in this file is disabled. When enabling Node.js integration
- * in a renderer process, please be aware of potential security implications. You can read
- * more about security risks here:
- *
- * https://electronjs.org/docs/tutorial/security
- *
- * To enable Node.js integration in this file, open up `main.ts` and enable the `nodeIntegration`
- * flag:
- *
- * ```
- *  // Create the browser window.
- *  mainWindow = new BrowserWindow({
- *    width: 800,
- *    height: 600,
- *    webPreferences: {
- *      nodeIntegration: true
- *    }
- *  });
- * ```
- */
-
+import axios from 'axios';
 import './index.css';
 
-console.log('👋 This message is being logged by "renderer.ts", included via Vite');
+const serverAxios = axios.create({ baseURL: 'http://localhost:3000' });
+
+document.querySelector('#login').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!(e.target instanceof HTMLFormElement)) return;
+
+  const data = Object.fromEntries(new FormData(e.target));
+  console.log(data)
+
+  try {
+    const test = await window.api.login(data);
+    // const res = await serverAxios.post('/login', data);
+    // console.log(res.headers['set-cookie'])
+    // const session = await serverAxios.get('/user').then(res => res.data);
+
+    // console.log(result);
+    // console.log(session);
+  } catch (err) {
+    alert('로그인 실패.');
+  }
+});
+
+document.querySelector('#test').addEventListener('click', async e => {
+  try {
+    const session = await serverAxios.get('/user').then(res => res.data);
+
+    // console.log(result);
+    console.log(session);
+  } catch (err) {
+    alert('로그인 실패.');
+  }
+});

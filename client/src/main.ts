@@ -1,5 +1,8 @@
-import { app, BrowserWindow } from 'electron';
+import axios from 'axios';
+import { app, BrowserWindow, ipcMain, session } from 'electron';
 import path from 'path';
+
+const serverAxios = axios.create({ baseURL: 'http://localhost:3000' });
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -7,6 +10,14 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = () => {
+  ipcMain.handle('login', async (e, user) => {
+    const res = await serverAxios.post('/login', user);
+    const value = res.headers['set-cookie'][0].split(';')[0].replace('connect.sid', '');
+    await session.defaultSession.cookies.set({ url: 'http://localhost:3000', name: 'connect.sid', value });
+
+    return res.data;
+  });
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,

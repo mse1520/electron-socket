@@ -1,13 +1,95 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World!</title>
 
-  </head>
-  <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-    <script type="module" src="/src/renderer.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>소켓 예제</title>
+</head>
+
+<body>
+  <h3>소켓 예제</h3>
+  <main>
+    <form id='login' style='margin: 1rem 0.5rem;'>
+      <input name='username' type="text" placeholder='ID'>
+      <input name='password' type="password" placeholder='password'>
+      <button type='submit'>로그인</button>
+    </form>
+    <button id='test' type='button'>test</button>
+    <section style='display: flex;'>
+      <div style='flex: 1; margin: 0 .5rem;'>
+        <h4 style='margin: .5rem 0;'>사용자</h4>
+        <table style='width: 100%;'>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>이름</th>
+              <th>상태</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody style='text-align: center;'>
+            <tr>
+              <td>user1</td>
+              <td>전소연</td>
+              <td>로그인</td>
+              <td><button type='button'>초대</button></td>
+              <td><button type='button'>추방</button></td>
+            </tr>
+            <tr>
+              <td>user2</td>
+              <td>민니</td>
+              <td>로그인</td>
+              <td><button type='button'>초대</button></td>
+              <td><button type='button'>추방</button></td>
+            </tr>
+            <tr>
+              <td>user3</td>
+              <td>우기</td>
+              <td>로그인</td>
+              <td><button type='button'>초대</button></td>
+              <td><button type='button'>추방</button></td>
+            </tr>
+            <tr>
+              <td>user4</td>
+              <td>슈화</td>
+              <td>로그아웃</td>
+              <td><button type='button'>초대</button></td>
+              <td><button type='button'>추방</button></td>
+            </tr>
+            <tr>
+              <td>user5</td>
+              <td>미연</td>
+              <td>로그인</td>
+              <td><button type='button'>초대</button></td>
+              <td><button type='button'>추방</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style='flex: 1; display: flex; flex-direction: column;'>
+        <h4 style='margin: .5rem 0;'>1:1 채팅</h4>
+        <div style='flex: 1; border: solid; margin: 0 .5rem; display: flex; flex-direction: column; justify-content: end;'>
+          <div></div>
+          <form style='display: flex;'>
+            <input type="text" style='width: 100%; box-sizing: border-box;'>
+            <button type='submit' style='width: 5rem;'>전송</button>
+          </form>
+        </div>
+      </div>
+      <div style='flex: 1; display: flex; flex-direction: column;'>
+        <h4 style='margin: .5rem 0;'>그룹 채팅</h4>
+        <div style='flex: 1; border: solid; margin: 0 .5rem; display: flex; flex-direction: column; justify-content: end;'>
+          <div></div>
+          <form style='display: flex;'>
+            <input type="text" style='width: 100%; box-sizing: border-box;'>
+            <button type='submit' style='width: 5rem;'>전송</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="/src/renderer.ts"></script>
+</body>
+
 </html>

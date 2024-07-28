@@ -1,9 +1,10 @@
-// import './configs/dotenvConfig';
 import http from 'http';
 import express, { NextFunction, Response } from 'express';
 import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import cors from 'cors';
+import router from './router';
 
 const PORT = 3000;
 
@@ -11,17 +12,19 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET!,
+  secret: 'socket test',
   resave: false,
   saveUninitialized: false,
 });
 
 app.set('io', io);
+app.use(cors({ origin: '*' }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('public'))
 app.use(sessionMiddleware);
+app.use(router);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: unknown, req: unknown, res: Response, next: NextFunction) => {
