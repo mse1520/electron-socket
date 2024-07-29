@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
 import router from './router';
+import { updateUser } from './socket';
 
 const PORT = 3000;
 
@@ -16,9 +17,10 @@ const sessionMiddleware = session({
   resave: false,
   saveUninitialized: false,
 });
+const corsMiddleware = cors({ origin: ['http://localhost:5173'], credentials: true });
 
 app.set('io', io);
-app.use(cors({ origin: ['http://localhost:5173'], credentials: true }))
+app.use(corsMiddleware)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -32,10 +34,13 @@ app.use((err: unknown, req: unknown, res: Response, next: NextFunction) => {
   res.status(500).send(err);
 });
 
+io.engine.use(corsMiddleware);
 io.engine.use(sessionMiddleware);
 io.on('connection', socket => {
   console.info('socket user connected: ', socket.id);
-  // socket.join(socket.request.session.id);
+  socket.join(socket.request.session.id);
+
+  updateUser(io, socket);
 });
 
 server.listen(PORT, () => {

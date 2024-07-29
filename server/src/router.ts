@@ -1,35 +1,42 @@
 import express from 'express';
-
-const USERS: Express.User[] = [
-  { username: 'user1', password: '1234', nickname: '소연' },
-  { username: 'user2', password: '1234', nickname: '미연' },
-  { username: 'user3', password: '1234', nickname: '우기' },
-  { username: 'user4', password: '1234', nickname: '민니' },
-  { username: 'user5', password: '1234', nickname: '슈화' },
-];
-
-const findBy = (username: string): Express.User | null => USERS.filter(user => user.username === username)?.[0] || null;
+import { UserForm } from './types';
+import { login, logout } from './service';
+import { Server } from 'socket.io';
+import { findAll } from './user.repository';
 
 const router = express.Router();
 
 router.get('/user', (req, res) => {
-  console.log(req.session)
-  res.status(200).json(req.session.user);
+  res.json(findAll());
 });
 
-router.post('/login', (req, res, next) => {
-  const user: Express.User = req.body;
-  const findUser = findBy(user.username);
-
-  if (!findUser) return res.status(401).json({ message: '로그인 실패' });
-  if (findUser.password !== user.password) return res.status(401).json({ message: '로그인 실패' });
-
-  req.session.user = findUser;
-  req.session.save(err => {
-    if (err) return next(err);
-    res.status(200).json(findUser);
-  });
+router.get('/session', (req, res) => {
+  res.json(req.session.user);
 });
 
+router.post('/login', async (req, res) => {
+  const user: UserForm = req.body;
+
+  try {
+    const result = await login(user, req.session);
+    if (result.code === 401) return res.status(401).json(result.data);
+    res.json(result.data);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
+
+router.delete('/logout', async (req, res) => {
+  const io: Server = req.app.get('io');
+
+  try {
+    const result = await logout(req.session, io);
+    result.code === 200
+      ? res.json(result.data)
+      : res.status(500).json(result.data);
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+});
 
 export default router;
