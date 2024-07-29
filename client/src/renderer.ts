@@ -1,7 +1,7 @@
 import axios from 'axios';
 import './index.css';
 
-const serverAxios = axios.create({ baseURL: 'http://localhost:3000' });
+const serverAxios = axios.create({ baseURL: 'http://localhost:3000', withCredentials: true });
 
 document.querySelector('#login').addEventListener('submit', async e => {
   e.preventDefault();
@@ -11,13 +11,13 @@ document.querySelector('#login').addEventListener('submit', async e => {
   console.log(data)
 
   try {
-    const test = await window.api.login(data);
-    // const res = await serverAxios.post('/login', data);
+    // const test = await window.api.login(data);
     // console.log(res.headers['set-cookie'])
-    // const session = await serverAxios.get('/user').then(res => res.data);
+    const result = await serverAxios.post('/login', data);
+    const session = await serverAxios.get('/user').then(res => res.data);
 
-    // console.log(result);
-    // console.log(session);
+    console.log(result);
+    console.log(session);
   } catch (err) {
     alert('로그인 실패.');
   }

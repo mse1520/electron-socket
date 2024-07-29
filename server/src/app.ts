@@ -18,11 +18,11 @@ const sessionMiddleware = session({
 });
 
 app.set('io', io);
-app.use(cors({ origin: '*' }))
+app.use(cors({ origin: ['http://localhost:5173'], credentials: true }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static('public'))
+app.use(express.static('public'));
 app.use(sessionMiddleware);
 app.use(router);
 
